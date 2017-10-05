@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <strings.h>
-#include <string.h>
 #include <ctype.h>
 
 #define max_word_length 200

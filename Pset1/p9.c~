@@ -42,6 +42,5 @@ int main(int argc, char **argv){
 	for(i = 0; i < lines; ++i){
 		printf("%s\n", str_array[i]);
 	}
-	return 0;
 }
 

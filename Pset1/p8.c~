@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 	nlines = readfile(str_array, argc, argv);
 
 	alphabetize(str_array, nlines);
-	for(i = 0; i < nlines; ++i){
+	for(i = 0; i < 500; ++i){
 		if(str_array[i] != NULL){
 		printf("%s", str_array[i]);
 		}

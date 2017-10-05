@@ -11,13 +11,6 @@ int main(int argc, char **argv){
 	n = atoi(argv[1]);
 	dmatrix_n = dmatrix(n, n);
 
-	for(i = 0; i < n; ++i){
-		for(j = 0; j < n; ++j){
-			dmatrix_n[i][j] = counter;
-			counter += 1.0;
-		}
-	}
-
 	printf("Matrix with 1D indexing:\n");
 	for(i = 0; i < n * n; ++i){
 		printf("%f ", dmatrix_n[0][i]);
@@ -30,6 +23,8 @@ int main(int argc, char **argv){
 	printf("Matrix with 2D indexing:\n");
 	for(i = 0; i < n; ++i){
 		for(j = 0; j < n; ++j){
+			dmatrix_n[i][j] = counter;
+			counter += 1.0;
 			printf("%f ", dmatrix_n[i][j]);
 		}
 		printf("\n");
