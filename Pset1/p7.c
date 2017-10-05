@@ -52,7 +52,8 @@ void initialize_array_static(double dmatrix[M][N], int m, int n){
 void work_kernel_dynamic(double **U, int m, int n)
 {
 	int i,j;
-	double a = 1.0, b = 0.5, c;
+	double a = 1.0, b = 0.5, c __attribute__((unused));
+
 
 	for( i=1; i < (m-1); i++)
 		for( j=1; j < (n-1); j++)
@@ -60,16 +61,17 @@ void work_kernel_dynamic(double **U, int m, int n)
 			c = ( a * (U[i+1][j] + U[i-1][j]) ) +
 		            ( b * (U[i][j+1] + U[i][j-1]) ) +
 	                    ( (1 - (2*a) - (2*b)) * U[i][j] );
-			c = c;
 		}
-
+	
+	/*(void)c;*/
 	return;
 }
 
 void work_kernel_static(double U[M][N], int m, int n)
 {
 	int i,j;
-	double a = 1.0, b = 0.5, c;
+	double a = 1.0, b = 0.5, c __attribute__((unused));
+
 
 	for( i=1; i < (m-1); i++)
 		for( j=1; j < (n-1); j++)
@@ -77,9 +79,8 @@ void work_kernel_static(double U[M][N], int m, int n)
 			c = ( a * (U[i+1][j] + U[i-1][j]) ) +
 		            ( b * (U[i][j+1] + U[i][j-1]) ) +
 	                    ( (1 - (2*a) - (2*b)) * U[i][j] );
-			c = c;
 		}
-
+	/*(void) c;*/
 	return;
 }
 
