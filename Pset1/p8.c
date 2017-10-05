@@ -27,7 +27,7 @@ int readfile(char **str_array, int argc, char **argv){
 			col += 1;
 		}
 	} while(c != EOF);
-	return row + 1;
+	return row;
 }
 
 int main(int argc, char **argv){
