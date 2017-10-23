@@ -146,7 +146,7 @@ size_t merge_two_array(double* M,  double* L, double* M_prev, size_t** pointer_a
 		else if(M_index >= len_L){
 			for(int i = L_index; i < len_L; i++){
 				M[length] = L[i];
-				printf("now %d %f %zu\n",i , L[i], len_L);
+				// printf("now %d %f %zu\n",i , L[i], len_L);
 				if(length < (len_L) + (len_M/2) - 1){
 					pointer_array[0][length+1] = pointer_array[0][length] + 1;
 					pointer_array[1][length+1] = pointer_array[1][length];
@@ -267,47 +267,44 @@ void Augment_array_init(Augment_array* augment_array, double** array_list, int* 
 	printf("allll\n");
 	pointer_array = malloc(sizeof(size_t*)*2);
 	printf("allll\n");
-
-	size_t* temp1 = malloc(sizeof(size_t)*size);
-	size_t* temp2 = malloc(sizeof(size_t)*size);
 	printf("set\n");
 
-	pointer_array[0] = temp1;
-	pointer_array[1] = temp2;
-	printf("allocatation succ\n");
-	for(int i = 0; i < size; i++){
-		pointer_array[0][i] = i;
-		pointer_array[1][i] = 0;
-	}
+	pointer_array[0] = malloc(sizeof(size_t)*size);
+	pointer_array[1] = malloc(sizeof(size_t)*size);
+	printf("allocatation succ %d\n", size);
+
 	augment_array_elem->pointer_array = pointer_array;
 	len_M = size;
+	for(size_t i; i < size; i++){
+		augment_array_elem->pointer_array[0][i] = i;
+		augment_array_elem->pointer_array[1][i] = 0;
+	}
+	printf("finish\n");
 	augment_array->arrays[NUM_ARRAY - 1] = augment_array_elem;
-
-
+	printf("start\n");
 	for(int j = NUM_ARRAY - 2; j >= 0; j--){
+		printf("sss\n");
 		L = array_list[j];
 		len_L = size_array[j];
-
 		size = len_L + len_M/2;
-
+		printf("start again\n");
 		/*reallocate pointer_array*/
 		pointer_array = malloc(sizeof(size_t*)*2);
 		pointer_array[0] = malloc(sizeof(size_t)*size);
 		pointer_array[1] = malloc(sizeof(size_t)*size);
-
-
+		printf("finish again\n");
 		M_prev = augment_array_elem->array;
 		M = malloc(sizeof(double)*size);
-
 		/*reallocate augment_array element*/
 		augment_array_elem = malloc(sizeof(Augment_array_elem));
-
 		len_M = merge_two_array(M, L, M_prev, pointer_array, len_L, len_M);
 		augment_array_elem->array = M;
 		augment_array_elem->pointer_array = pointer_array;
 		/*update the augment array*/
 		augment_array->arrays[j] = augment_array_elem;
+		printf("%d\n", j);
 	}
+	printf("ffffinsh");
 	augment_array->size = len_M;
 }
 
@@ -390,6 +387,14 @@ size_t* search_kernel_augment(double target, Augment_array* augment_array){
 	return array_index;
 }
 
+void destroy_union(Union_array* union_array){
+	free(union_array->array);
+	for(int i = 0; i < NUM_ARRAY; i++){
+		free(union_array->pointer_array[i]);
+	}
+	free(union_array->pointer_array);
+}
+
 
 int main(int argc, char** argv){
 	size_t size;
@@ -415,10 +420,13 @@ int main(int argc, char** argv){
 	for(int i =0; i < NUM_ARRAY; i++){
 		printf("index for %d is %zu\n", i, array_index[i]);
 	}
+	destroy_union(test);
+	free(array_index);
 
 	Augment_array* augment_array = malloc(sizeof(Augment_array));
 
 	Augment_array_init(augment_array, array_list, size_array);
+	printf("init succc");
  	array_index = search_kernel_augment(target, augment_array);
  	for(int i =0; i < NUM_ARRAY; i++){
 		printf("augment index for %d is %zu\n", i, array_index[i]);
