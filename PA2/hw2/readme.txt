@@ -34,10 +34,17 @@ The plot generated for the Mandelbrot set is saved as “mset_plot.png” in the
 6.Problem 6
 We get the following running for the search kernel for the three data structure.
 
+(Result on Mac)
 Set number of iteration to: 1000000
 Original Method takes: 6.372312
 Union Method takes: 1.144349
 Augment Method takes: 2.093133
+
+(Result on CSIL machine)
+Set number of iteration to: 1000000
+Original Method takes: 4.926155
+Union Method takes: 0.699889
+Augment Method takes: 1.480909
 
 For 1000000 iterations (generating random search each iteration), the runtime for the unionized array is the least. Then following by the augmented array. The slowest implementation is the binary search on the original list of arrays. This in fact make sense.
 Denote the number of arrays as k and the average array size as n. The complexity for the original method is O(k*log(n)) = O(log(n)*k). The complexity for the unionized array should be O(log(n * k) + k) = O(log(n) + log(k) + k). The complexity for the augmented array is approximately O(log(n) + k). 

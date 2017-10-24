@@ -64,7 +64,7 @@ void construct_union(double* union_array, double** array_list, size_t** pointer_
 	int union_counter, size;
 	counter_array = malloc(sizeof(int) * NUM_ARRAY);
 	seq_array = malloc(sizeof(int) * NUM_ARRAY);
-	heap_array = malloc(sizeof(int) * NUM_ARRAY);
+	heap_array = malloc(sizeof(double) * NUM_ARRAY);
 
 	size = 0;
 	union_counter = 0;
@@ -125,7 +125,7 @@ void union_init(Union_array* union_array, double** array_list, int* size_array, 
 
 	/*then construct the union list*/
 	total_array = malloc(sizeof(double)*s);
-	pointer_array = malloc(sizeof(size_t**)*s);
+	pointer_array = malloc(sizeof(size_t*)*s);
 
 	for(int i = 0; i < NUM_ARRAY; i++){
 		pointer_array[i] = malloc(sizeof(size_t) * s);
@@ -144,7 +144,7 @@ void Augment_array_init(Augment_array* augment_array, double** array_list, int* 
 
 	int size;
 	size_t len_L, len_M;
-	size_t** pointer_array = malloc(sizeof(size_t*)*2);
+	size_t** pointer_array;
 	double* M, *M_prev, *L;
 
 	/*initialize the last array*/
@@ -459,12 +459,13 @@ void lookup_kernel(int time){
 	augment_time = 0;
 
 	for(int i = 0; i < time; i++){
-		target = rand()*20;
+		target = rand()*10;
 		clock_t t1 = clock();
 		array_index = search_kernel_original(target, array_original, size_array);
 		t1 = clock() - t1;
 		original_time += (float)t1/CLOCKS_PER_SEC;
 	}
+
 
 	for(int i = 0; i < time; i++){
 		target = rand()*20;
@@ -482,14 +483,10 @@ void lookup_kernel(int time){
 		augment_time += (float)t1/CLOCKS_PER_SEC;
 	}
 
-	printf("test the 67th %f\n", augment_array->arrays[67]->array[0]);
 
 	destroy_original(array_original);
-	printf("original freed\n");
 	destroy_union(union_array);
-	printf("union freed\n");
 	destroy_augment(augment_array);
-	// printf("test the 67th %f\n", augment_array->arrays[67]->array[0]);
 
 	printf("Set number of iteration to: %d\n", time);
 	printf("Original Method takes: %f\n", original_time);
@@ -499,7 +496,6 @@ void lookup_kernel(int time){
 
 
 int main(int argc, char** argv){
-
 	lookup_kernel(ITER_TIME);
 
 	return 0;
