@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
@@ -92,11 +92,9 @@ int test_binary_nonrec(Tree_node* cur_node){
 		else{
 			if(stack_tree->head->next != NULL){
 			if(stack_tree->head->data->data > stack_tree->head->next->data->data){
-				printf("bigger %d\n", stack_tree->size);
 				return -1;
 			}
 		}
-		printf("pass\n");
 			stack_pop(stack_tree);
 			cur_node = stack_tree->head->data->right;
 			if(cur_node != NULL){
@@ -124,11 +122,7 @@ int* traverse_inorder(Tree_node* cur_node){
 	rv[1] = cur_node->data;
 	rv[2] = cur_node->data;
 	if(left != NULL){
-		printf("not\n");
 		rv_left = traverse_inorder(left);
-	}
-	else{
-		printf("empty\n");
 	}
 	if(right != NULL){
 		rv_right = traverse_inorder(right);
@@ -138,7 +132,6 @@ int* traverse_inorder(Tree_node* cur_node){
 		return rv;
 	}
 	if(rv_left != NULL){
-		printf("yes\n");
 		if(rv_left[1] > cur_node->data){
 			rv[0] = 0;
 		}

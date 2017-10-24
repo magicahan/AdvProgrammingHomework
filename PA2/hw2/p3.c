@@ -3,7 +3,7 @@
 #include<omp.h>
 
 // Write array of number of iterations to file
-#define WRITE_RESULT 1
+// #define WRITE_RESULT 1
 
 // Array dimensions
 #define DIM 1000
@@ -30,11 +30,13 @@ double mandelbrot_omp_static();
 
 int main(int argc, char **argv){
 
-  double time_serial, time_omp;
+  double time_serial, time_omp_static, time_omp_dynamic;
   time_serial = mandelbrot_serial();
-  time_omp = mandelbrot_omp_dynamic();
+  time_omp_static = mandelbrot_omp_static();
+  time_omp_dynamic = mandelbrot_omp_dynamic();
   printf("Serial version took %f seconds.\n",time_serial);
-  printf("OMP version took %f seconds.\n",time_omp);
+  printf("OMP Static version took %f seconds.\n",time_omp_static);
+  printf("OMP Dynamic version took %f seconds.\n",time_omp_dynamic);
   return 0;
 }
 
@@ -45,6 +47,7 @@ double mandelbrot_omp_static()
   Complex c, z;
   FILE *f;
   int nt = omp_get_max_threads();
+  omp_set_num_threads(nt);
 
   // Allocate global array to collect data 
   U = malloc(DIM*DIM*sizeof(int));
@@ -54,8 +57,8 @@ double mandelbrot_omp_static()
 
   double tick = omp_get_wtime();
 
-#pragma omp for collapse(2) schedule(static)
-for(px=start/DIM; px<=end/DIM; px++){
+#pragma omp parallel for collapse(2) schedule(static) private(c, z, iter, py) 
+  for(px=start/DIM; px<=end/DIM; px++){
       for(py=0; py<DIM; py++){
           if((px==start/DIM) && (py==0)) py=start%DIM;
           if((px!=end/DIM) || (py<=end % DIM)){
@@ -70,7 +73,7 @@ for(px=start/DIM; px<=end/DIM; px++){
               z.real = tmp;
               iter++;
           }
-          U[px * DIM + py] = iter;
+          U[px*DIM+py] = iter;
         }
       }
   }
@@ -101,6 +104,7 @@ double mandelbrot_omp_dynamic()
   Complex c, z;
   FILE *f;
   int nt = omp_get_max_threads();
+  printf("%d\n", nt);
 
   // Allocate global array to collect data 
   U = malloc(DIM*DIM*sizeof(int));
@@ -110,8 +114,9 @@ double mandelbrot_omp_dynamic()
 
   double tick = omp_get_wtime();
 
-#pragma omp for collapse(2) schedule(dynamic)
-for(px=start/DIM; px<=end/DIM; px++){
+  omp_set_num_threads(nt);
+  #pragma omp parallel for collapse(2) schedule(dynamic) private(px, py, c, z, iter)
+  for(px=start/DIM; px<=end/DIM; px++){
       for(py=0; py<DIM; py++){
           if((px==start/DIM) && (py==0)) py=start%DIM;
           if((px!=end/DIM) || (py<=end % DIM)){
@@ -126,10 +131,11 @@ for(px=start/DIM; px<=end/DIM; px++){
               z.real = tmp;
               iter++;
           }
-          U[px * DIM + py] = iter;
+          U[px*DIM+py] = iter;
         }
       }
   }
+
   double tock = omp_get_wtime();
 
   // Write DIM*DIM array of number of iterations at each point to file
