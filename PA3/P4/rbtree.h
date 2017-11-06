@@ -1,0 +1,30 @@
+typedef char* key_rbt;
+typedef char object_rbt;
+typedef struct rbtree_node_t{
+	key_rbt key;
+	enum color_ {red, black, double_black} color;
+	object_rbt* data;
+    struct rbtree_node_t *left;
+    struct rbtree_node_t *right;
+    struct rbtree_node_t *parent;
+} rbtree_node;
+
+void create_tree(rbtree_node* node);
+void create_node(rbtree_node* node);
+object_rbt* find(key_rbt query_key, rbtree_node *node);
+rbtree_node* grandparent(rbtree_node* n);
+rbtree_node* uncle(rbtree_node* n);
+rbtree_node* sibling(rbtree_node* n);
+void insert(rbtree_node* root, key_rbt key, object_rbt* val);
+void insert_case1(rbtree_node *n);
+void insert_case2(rbtree_node *n);
+void insert_case3(rbtree_node *n);
+void insert_case4(rbtree_node *n);
+void insert_case5(rbtree_node *n);
+void left_rotation(rbtree_node *n);
+void right_rotation(rbtree_node *n);
+rbtree_node *FindMin(rbtree_node* root);
+rbtree_node *Delete_BST(rbtree_node *root, key_rbt key);
+void remove_dblack(rbtree_node* u);
+void Delete_rbt(rbtree_node *root, key_rbt key);
+void free_node(rbtree_node* node);
