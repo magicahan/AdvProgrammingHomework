@@ -35,6 +35,7 @@ int main(){
 	printf("tt1 is %s\n", tt1->key);
 	insert_rb(tt1, "working", "working status");
 	insert_rb(tt1, "insert", "add");
+	printf("after switch key is %s\n", tt1->key);
 	insert_rb(tt1, "legal", "status");
 
 

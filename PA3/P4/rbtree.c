@@ -99,11 +99,11 @@ void insert_case4(rbtree_node *n){
 
   if ((n == n->parent->right) && (n->parent == g->left)) {
     left_rotation(n->parent);
-    n = n->left;
+    n = n->parent->left;
 
   } else if ((n == n->parent->left) && (n->parent == g->right)) {
     right_rotation(n->parent);
-    n = n->right;
+    n = n->parent->right;
   }
   insert_case5(n);
 }

@@ -1,7 +1,5 @@
 #include "tree.h"
 
-typedef char* key_t;
-typedef char object_t;
 typedef struct dict1_{
 	tree_node* words;
 } dict1;

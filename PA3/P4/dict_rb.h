@@ -1,7 +1,5 @@
 #include "rbtree.h"
 
-typedef char* key_rbt;
-typedef char object_rbt;
 typedef struct dict2_{
 	rbtree_node* words;
 } dict2;
