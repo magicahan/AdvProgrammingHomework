@@ -46,7 +46,6 @@ int insert(tree_node *tree, key_t new_key, object_t *new_object){
 
     if (tree->left == NULL){     /* insert data if only root node */
         //tree->left = malloc(sizeof(object_t *));
-        printf("init\n");
         tree->left = malloc(sizeof(char)*MAX_WORD_LEN);
         strcpy((char*)tree->left, new_object);
         tree->key = malloc(sizeof(object_t)*MAX_WORD_LEN);
@@ -55,7 +54,6 @@ int insert(tree_node *tree, key_t new_key, object_t *new_object){
     }
     else{                       /* else traverse tree to leaf node */
         tmp_node = tree;
-        printf("tmp node is %s\n", tmp_node->key);
         while (tmp_node->right != NULL){
             if ( (flag = strcmp(new_key, tmp_node->key))<0 )
                 tmp_node = tmp_node->left;
@@ -63,14 +61,11 @@ int insert(tree_node *tree, key_t new_key, object_t *new_object){
                 tmp_node = tmp_node->right;
         }
 
-        printf("new old start\n");
-        printf("%s %s %d\n", new_key, tmp_node->key, strcmp(new_key, tmp_node->key));
         if ( (flag = strcmp(new_key, tmp_node->key))==0  )  /* if key exists don't insert */
             return -1;
 
         tree_node *old_leaf, *new_leaf;
 
-        printf("new old pass\n");
         old_leaf = create_node();
         old_leaf->left = malloc(sizeof(char)*MAX_LINE_LEN*MAX_WORD_LEN);
         old_leaf->key = malloc(sizeof(char)*MAX_WORD_LEN);
